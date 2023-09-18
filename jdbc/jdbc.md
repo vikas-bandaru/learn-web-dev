@@ -7,7 +7,7 @@ MySQL v8.0
 user_mgmt
 #### Tables
 Create a table named `user_type`:  
->![user_tye table](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/user_type%20table.PNG)  
+>![user_tye table](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/user-type-table.PNG)  
 
 Describe `user_type` table:  
 >`describe user_type;`  
@@ -26,7 +26,7 @@ Check the records of the `user_type` table:
 >`select * from user_type;`
 
 Create a table named `user`:  
->![user table](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/user%20table.PNG)
+>![user table](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/user-table.PNG)
 
 Describe the `user` table to check if it is created correctly.  
 Insert one record to set the starting value for `userId`. Then insert multiple records. Make sure the values in `userType` column of `user` table matches the `userTypeId` column of `user_type` table.
