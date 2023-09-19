@@ -140,7 +140,8 @@ Step #6: Close the Connection
 
 In the above steps, Steps 1, 2, and 6 are common to all JDBC code. Step 6 is optional, may or may not be used for experiments by beginners. But, it MUST be used in professional code, i.e., in job.  
 
-### Connect to a MySQL database `user_mgmt` using JDBC
+## Connect to a MySQL database `user_mgmt` using JDBC
+### Problem: Verify if the `user_type` table has at least one record
 #### Step #1: Load the MySQL JDBC Driver
 **Explanation:** JDBC drivers are responsible for communicating with the database. Before establishing a connection, you need to load the appropriate JDBC driver class.
 ```
@@ -194,16 +195,16 @@ String dbPassword = "root";
 try {
 	Class.forName("com.mysql.cj.jdbc.Driver");
 	Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-} catch(ClassNotFoundException ex) {
+} catch (ClassNotFoundException ex) {
 	System.out.println("Driver class not found.");
-} catch(SQLException ex) {
+} catch (SQLException ex) {
 	System.out.println("Exception: Check spelling mistake in values of dbUrl or dbUsername or dbPassword");
 }
 ```
 #### Step #3: Create a Statement
 **Explanation:** After establishing a connection, you can execute SQL statements or queries against the database. This will involve writing simple SELECT statements to retrieve data from the database. The simplest way to execute a query using JDBC is using a Statement object.
 ```
-Statement stmt = connection.createStatement();
+Statement stmt = con.createStatement();
 ```
 #### Step #4: Execute the query and save the result
 Statement interface has many execute methods. Execution methods available in Statement interface:
@@ -229,8 +230,8 @@ String dbPassword = "root";
 try {
 	Class.forName("com.mysql.cj.jdbc.Driver");
 	Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-	Statement stmt = connection.createStatement();
-  	String query = "SELECT * FROM emp";
+	Statement stmt = con.createStatement();
+  	String query = "SELECT * FROM user_type";
   	boolean isSuccess = stmt.execute(query);
 } catch(ClassNotFoundException ex) {
 	System.out.println("Driver class not found.");
@@ -256,29 +257,186 @@ con.close();
 ```
 So, the final code for the above 6 steps:
 ```
-String dbUrl = "jdbc:mysql://localhost:3306/user_mgmt";
-String dbUsername = "root";
-String dbPassword = "root";
-String query = "SELECT * FROM emp";
-try {
+void printAllUserTypes() {
+   String dbUrl = "jdbc:mysql://localhost:3306/user_mgmt";
+   String dbUsername = "root";
+   String dbPassword = "root";
+   String query = "SELECT * FROM user_type";
+   try {
 	Class.forName("com.mysql.cj.jdbc.Driver");
 	Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-	Statement stmt = connection.createStatement();
+	Statement stmt = con.createStatement();
   	boolean isSuccess = stmt.execute(query);
   	if (isSuccess) {
 	  System.out.println("Query executed successfully.");
   	} else {
 	  System.out.println("Query failed.");
   	}
-  stmt.close();
-  con.close();
-} catch(ClassNotFoundException ex) {
+   	stmt.close();
+   	con.close();
+   } catch(ClassNotFoundException ex) {
 	System.out.println("Driver class not found.");
-} catch(SQLException ex) {
+   } catch(SQLException ex) {
 	System.out.println("Exception: Check spelling mistake in values of dbUrl or dbUsername or dbPassword or query");
+   }
 }
 ```
 
+But the above code is not such a good one. Why? Because, we are using `boolean execute(String sql)` method and this method doesn't give correct results because of it's return type policy.  
+A better code could be using `ResultSet executeQuery(String sql)` method. This method returns an object that contains all the result returned by the database and so can be used to check if the records are available in the result.  
+### Get full result of SELECT query as an object - Process data using ResultSet object
+Let's update the above code with this new method.. But before making any updates, let's see what need not be disturbed. As discussed earlier, Steps 1, 2, 3, and 6 are common to our previous JDBC code. The code up to creating a statement (Step 3), and the code that continues from Closing the Connection (Step 6) need not be disturbed.  
+Step #1 to Step #3:
+```
+void printAllUserTypes() {
+   String dbUrl = "jdbc:mysql://localhost:3306/user_mgmt";
+   String dbUsername = "root";
+   String dbPassword = "root";
+   String query = "SELECT * FROM user_type";
+   try {
+	Class.forName("com.mysql.cj.jdbc.Driver");
+	Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+	Statement stmt = con.createStatement();
+```
+Step #6 onwards:
+```
+   	stmt.close();
+   	con.close();
+   } catch(ClassNotFoundException ex) {
+	System.out.println("Driver class not found.");
+   } catch(SQLException ex) {
+	System.out.println("Exception: Check spelling mistake in values of dbUrl or dbUsername or dbPassword or query");
+   }
+}   // method close bracket
+```
+Now, let's execute the query using `ResultSet executeQuery(String sql)` method and save the result in `ResultSet` object.  
+```
+	ResultSet rs = stmt.executeQuery(query);
+```
+`ResultSet` object refers to the whole result returned from executing the query. The result may include no records, 1 record, or multiple records based on the data available in the table. `ResultSet` interface has a method called `boolean next()` which maintains a cursor that refers to the first record of the result and checks if the `ResultSet` object refers to a record or not. If `ResultSet` object refers to a record, `rs.next()` returns `true` and moves the cursor to the next record in the result. If `ResultSet` object does not refer to a record, `rs.next()` returns `false`.  
+Now, let's make use of this method, process the result and print the record.
+```
+	if (rs.next()) {
+		// record is available
+		System.out.println("record is available");
+	}
+```
+The above `if` condition prints the message "record is available" if there is at least one record in the result. If we use `while` instead of `if`, the same message is repeatedly printed till all records of the result are accessed.
+>**Think and Explain** how using `while` instead of `if` prints the same message repeatedly based on the number of records
+
+Now, let's update the code inside the `if` block to print the data of the record.
+This table (`user_type`) contains 4 columns: userTypeId (int), userType (varchar), description (varchar), and userTypeLevel (int)  
+I have mentioned the column type for each column within the pair of parentheses () for reference. This information is crucial to access individual column data per record.  
+`ResultSet` interface contains a lot of get methods for each primitive data type, one for String, and one for Object. And these methods are overloaded methods, i.e., same method name with different parameter types.  
+#### Example
+>`int getInt(int columnIndex)`  
+>`int getInt(String columnLabel)`
+
+Find more ResultSet get methods from its documentation page [here](https://docs.oracle.com/javase/8/docs/api/java/sql/ResultSet.html).  
+These methods return the value of the given column of the current record that is accessed using `ResultSet` rs object.  
+#### Example
+>`rs.getInt(1)` returns the current record's first column value, i.e., userTypeId column value.  
+>Alternatively, `rs.getInt("userTypeId")` too returns the value of the current record's column with column-label "userTypeId" 
+
+**Note:** Unlike Java's array index which starts from 0, SQL table's column index starts from 1.  
+
+>How to decide which get method of `ResultSet` to use?  
+
+That can be decided based on the data type of the column. For integer number types of SQL, getInt. For fractional number types of SQL, getFloat or getDouble. For varchar or any string types of SQL, getString. etc.  
+
+So, the final code to print all the columns of the first record of result:
+```
+	if (rs.next()) {
+		System.out.println("User Type ID: " + rs.getInt("userTypeId"));
+		System.out.println("User Type: " + rs.getString("userType"));
+		System.out.println("Description: " + rs.getString("description"));
+		System.out.println("User Type Level: " + rs.getInt("userTypeLevel"));
+	}
+```
+>**Question:** What if the there are no records in the result? Will the code still work??  
+
+Just add one more close statement before closing stmt. Close `ResultSet` rs object.  
+
+So, the final code using `ResultSet`:
+```
+void printAllUserTypes() {
+   String dbUrl = "jdbc:mysql://localhost:3306/user_mgmt";
+   String dbUsername = "root";
+   String dbPassword = "root";
+   String query = "SELECT * FROM user_type";
+   try {
+	Class.forName("com.mysql.cj.jdbc.Driver");
+	Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+	Statement stmt = con.createStatement();
+	ResultSet rs = stmt.executeQuery(query);
+	if (rs.next()) {
+		System.out.println("User Type ID: " + rs.getInt("userTypeId"));
+		System.out.println("User Type: " + rs.getString("userType"));
+		System.out.println("Description: " + rs.getString("description"));
+		System.out.println("User Type Level: " + rs.getInt("userTypeLevel"));
+	}
+	rs.close();
+   	stmt.close();
+   	con.close();
+   } catch(ClassNotFoundException ex) {
+	System.out.println("Driver class not found.");
+   } catch(SQLException ex) {
+	System.out.println("Exception: Check spelling mistake in values of dbUrl or dbUsername or dbPassword or query");
+   }
+}	// method close bracket
+```
+### Problem: Print all users based on given `userName`
+If you think about this problem, it is similar to the previous problem. Except that it is a different table (`user`), and the method needs an extra information, i.e., the value of the column `userName` to do the job.  
+When working on such problems, a **_good practice_** would be writing down the query and testing it in the SQL Server, and then keeping it available in comment line for reference.  
+>**SQL Query for this problem:** SELECT * FROM user WHERE userName = 'Vijay';
+
+![query result]()  
+The method signature for this problem could be: `void printUserByName(String name)`. userName value is extra information and it could be anything. So, we better receive it as parameter of the method. As this method should just print the result, so `void` is enough as return type.  
+
+#### Code
+The code is very much similar to previous problem's method. The only things to take care of: 
+1. Write the query in Java format (parameter variable to be concatenated properly)
+2. Update `ResultSet` get methods based on the columns to print
+
+In the following code, I am printing only 4 columns of the `user` table.
+```
+void printUserByName(String name) {
+   String dbUrl = "jdbc:mysql://localhost:3306/user_mgmt";
+   String dbUsername = "root";
+   String dbPassword = "root";
+   // Example query: SELECT * FROM user WHERE userName = 'Vijay'
+   String query = "SELECT * FROM user WHERE userName = '" + name + "'";
+   try {
+	Class.forName("com.mysql.cj.jdbc.Driver");
+	Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+	Statement stmt = con.createStatement();
+	ResultSet rs = stmt.executeQuery(query);
+	while (rs.next()) {
+		System.out.print(rs.getString("userName") + "\t");
+		System.out.print(rs.getString("gender") + "\t");
+		System.out.print(rs.getString("dob") + "\t");
+		System.out.println(rs.getString("country"));
+	}
+	rs.close();
+   	stmt.close();
+   	con.close();
+   } catch(ClassNotFoundException ex) {
+	System.out.println("Driver class not found.");
+   } catch(SQLException ex) {
+	System.out.println("Exception: Check spelling mistake in values of dbUrl or dbUsername or dbPassword or query");
+   }
+}	// method close bracket
+```
+
+#### Exercises
+1. Get the student based on id (expected result is one record, as id is unique)
+   Expected return is an object that contains all the details of the resulting object
+2. Get the students based on name (expected result  is multiple records, as name is not unique and there may be duplicates)
+   Expected return is a list of objects that contain all the details of the resulting objects
+3. Get the students based on age (expected result is multiple records, as age is not unique and there may be duplicates)
+   Expected return is a list of objects that contain all the details of the resulting objects
+
+### Problem: Insert a record into `user_type` table
 Let's think of another method's names and respective parameters or returns for each of the menu items for `user_type` table.
 >1. Create New User Type (Insert a User_Type record)  
 
