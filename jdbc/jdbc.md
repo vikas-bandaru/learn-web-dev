@@ -153,7 +153,7 @@ The above statement causes an exception called "ClassNotFoundException". Handle 
 ```
 try {
 	Class.forName("com.mysql.cj.jdbc.Driver");
-} catch(ClassNotFoundExcpetion ex) {
+} catch(ClassNotFoundException ex) {
 	System.out.println("Driver class not found.");
 }
 ```
@@ -194,7 +194,7 @@ String dbPassword = "root";
 try {
 	Class.forName("com.mysql.cj.jdbc.Driver");
 	Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-} catch(ClassNotFoundExcpetion ex) {
+} catch(ClassNotFoundException ex) {
 	System.out.println("Driver class not found.");
 } catch(SQLException ex) {
 	System.out.println("Exception: Check spelling mistake in values of dbUrl or dbUsername or dbPassword");
@@ -217,7 +217,7 @@ Statement interface has many execute methods. Execution methods available in Sta
   Executes a batch of SQL statements as a single operation. It is useful for executing multiple statements efficiently in a batch.
 Let us try one of them:
 ```
-String query = "SELECT * FROM emp";
+String query = "SELECT * FROM user_type";
 boolean isSuccess = stmt.execute(query);
 ```
 The execute method returns true if the statement is a ResultSet-producing statement, and false otherwise.  
@@ -230,9 +230,9 @@ try {
 	Class.forName("com.mysql.cj.jdbc.Driver");
 	Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
 	Statement stmt = connection.createStatement();
-  String query = "SELECT * FROM emp";
-  boolean isSuccess = stmt.execute(query);
-} catch(ClassNotFoundExcpetion ex) {
+  	String query = "SELECT * FROM emp";
+  	boolean isSuccess = stmt.execute(query);
+} catch(ClassNotFoundException ex) {
 	System.out.println("Driver class not found.");
 } catch(SQLException ex) {
   System.out.println("Exception: Check spelling mistake in values of dbUrl or dbUsername or dbPassword or query ");
@@ -264,15 +264,15 @@ try {
 	Class.forName("com.mysql.cj.jdbc.Driver");
 	Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
 	Statement stmt = connection.createStatement();
-  boolean isSuccess = stmt.execute(query);
-  if (isSuccess) {
+  	boolean isSuccess = stmt.execute(query);
+  	if (isSuccess) {
 	  System.out.println("Query executed successfully.");
-  } else {
+  	} else {
 	  System.out.println("Query failed.");
-  }
+  	}
   stmt.close();
   con.close();
-} catch(ClassNotFoundExcpetion ex) {
+} catch(ClassNotFoundException ex) {
 	System.out.println("Driver class not found.");
 } catch(SQLException ex) {
 	System.out.println("Exception: Check spelling mistake in values of dbUrl or dbUsername or dbPassword or query");
