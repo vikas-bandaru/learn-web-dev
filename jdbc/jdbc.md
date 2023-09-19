@@ -429,12 +429,12 @@ void printUserByName(String name) {
 ```
 
 #### Exercises
-1. Get the student based on id (expected result is one record, as id is unique)
-   Expected return is an object that contains all the details of the resulting object
-2. Get the students based on name (expected result  is multiple records, as name is not unique and there may be duplicates)
-   Expected return is a list of objects that contain all the details of the resulting objects
-3. Get the students based on age (expected result is multiple records, as age is not unique and there may be duplicates)
-   Expected return is a list of objects that contain all the details of the resulting objects
+1. Get the student based on id (expected result is one record, as id is unique)  
+ Expected return is an object that contains all the details of the resulting object
+2. Get the students based on name (expected result  is multiple records, as name is not unique and there may be duplicates)  
+ Expected return is a list of objects that contain all the details of the resulting objects
+3. Get the students based on age (expected result is multiple records, as age is not unique and there may be duplicates)  
+ Expected return is a list of objects that contain all the details of the resulting objects
 
 ### Problem: Insert a record into `user_type` table
 Let's think of another method's names and respective parameters or returns for each of the menu items for `user_type` table.
