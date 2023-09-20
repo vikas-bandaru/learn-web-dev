@@ -33,6 +33,14 @@ Create a HTML file by Right-clicking on Project name and choosing HTML file from
 ![create-html-file-1](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/create-html-file-1.PNG)  
 Enter the file name as `index.html` and press Finish button  
 ![create-html-file-2](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/create-html-file-2.PNG)  
+
+##### Exercise
 Create a Java class by Right-clicking on Project name and choosing Class from menu.  
 Enter the file name as `Sample` and press Finish button  
 Observe where this file is created in the Project File Structure.  
+
+###### To be updated:
+1. Provide a form with action attribute, input with name attribute, button with submit type
+2. Provide a Servlet with doGet() to greet the user in browser
+3. Update the behaviour to get the data from database and print the same in browser
+4. Update the behaviour to get all the records from database and print the same in browser
