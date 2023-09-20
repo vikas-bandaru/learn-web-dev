@@ -1,6 +1,10 @@
 # Java Database Connectivity (JDBC)
 JDBC is an API that connects any given database with any given Java version for accessing data from database via code.  
 Let's first setup our Database and respective tables to continue with JDBC.
+#### Official JDBC API Documentation
+Make habit of using Java documentation as often as possible while building Java code.  
+Here is [JDBC API documentation](https://docs.oracle.com/javase/8/docs/technotes/guides/jdbc/).  
+Here is [Java 8 Documentation](https://docs.oracle.com/javase/8/docs/api/index.html) for your Core Java reference.
 #### RDBMS
 MySQL v8.0 
 #### Database
@@ -28,11 +32,11 @@ Check the records of the `user_type` table:
 Create a table named `user`:  
 >![user table](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/user-table.PNG)
 
-Describe the `user` table to check if it is created correctly.  
+>**Good Practice:** Always describe table after creating it. To make sure you the table has the structure you need.  
 Insert one record to set the starting value for `userId`. Then insert multiple records. Make sure the values in `userType` column of `user` table matches the `userTypeId` column of `user_type` table.
 
-Before continuing with JDBC, let's see what can we do with such tables...  
-Some Operations:
+**Motivation to learn JDBC**
+Before continuing with JDBC, let's see what can we do with such tables...
 1. Demographic Analysis:  
   a. **Age Distribution:** By using the `dob` column in the `user` table, you can determine the age distribution of users.  
   b. **Gender Distribution:** The `gender` column can provide insights into the distribution of male, female, and other genders among users.  
@@ -49,15 +53,15 @@ Some Operations:
 6. Correlation Analysis:  
   You might find correlations between certain fields. For example, does a specific country have a higher proportion of a certain user type? Or are users of a specific age range more likely to be of a particular user type?
 
-Some common CRUD operations that can be performed on these tables:
+Some **common CRUD operations** that can be performed on these tables:
 1. Insert records
 2. Read all or specific records based on some criteria
 4. Update all or specific records based on some criteria
 5. Delete all or specific records based on some criteria
 
-Among the above CRUD operations, Read operation (SELECT) shall be used for all the various analysis that can be done based on the data in the tables and the relationship among the tables.
+**Note:** Among the above CRUD operations, Read operation (SELECT) shall be used for all the various analysis that can be done based on the data in the tables and the relationship among the tables.
 
-A sample CLI menu for basic CRUD operations on user_type table:  
+A sample CLI menu for basic CRUD operations on `user_type` table:  
 >=========================== USER_TYPE TABLE MENU ===========================  
 >1. Create New User Type (Insert a User_Type record)
 >2. View All User Types
@@ -69,7 +73,7 @@ A sample CLI menu for basic CRUD operations on user_type table:
 >=======================================================================  
 Please enter your choice:  
 
-A sample CLI menu for basic CRUD operations on user table:  
+A sample CLI menu for basic CRUD operations on `user` table:  
 >============================= USER TABLE MENU ==============================  
 >1. Create New User
 >2. View All Users
@@ -81,6 +85,8 @@ A sample CLI menu for basic CRUD operations on user table:
 >
 >=======================================================================  
 Please enter your choice:  
+
+>**Good Practice:** Always have a table design and respective CLI or GUI menu ready before starting JDBC code.
 
 ## JDBC
 ### Set up JDBC Environment
@@ -103,25 +109,25 @@ Do the following in the Eclipse Java Project:
 2. give me list of frequently used interfaces that are part of JDBC API
 3. give me a mapping of MySQL classes that implement these JDBC API interfaces in a tabular form mapped with similar implementations by Oracle database
 4. now give me most used methods of MySQL classes with their description and usage example in a tabular format
-
->**Good Practice:** Always have a table design and respective CLI or GUI menu ready before starting JDBC code.
-
 That way, you know what features you want to work on. Each CLI or GUI menu becomes a method in your Java code which is dedicated to do one and only one job.
 
-Next, let's think of method names and respective parameters or returns for each of the menu items for `user_type` table.  
-Let's consider a simple menu item based on SQL query syntax.
+#### Planning Methods for the CRUD Operations
+Let's think of method names and respective parameters or returns for each of the menu items for `user_type` or `user` table.  
+Let's consider a menu item based on a simple SQL query: SELECT * FROM table-name; This query is simple and doesn't need any extra data to work.  
 >2. View All User Types  
 
-It is easy to come up with method signature, if we understand the expected behavior of the method. The method for the above menu item should print all the records of the table `user_type`.
-First, decide on the method name: `printAllUserTypes` is a good name for this method  
-Then, decide if the method needs to return anything: the method name chosen starts with print, that means, maybe we just want to print the data received. So, `void` as return type is sufficient for this method.  
-Then, decide if the method needs any parameters: this decision can be taken based on if any extra data is needed for this method to run and finish it's job.  
-For a simple `select` query which shows all records of the table that doesn't have any constraints (conditions), so no extra data is needed to run this query. So, parameters are not needed.  
+This menu item fits our simple query.  
+It is *easy to come up with method signature*, if we understand the expected behavior of the method. The method for the above menu item should print all the records of the table `user_type`.
+##### Steps to decide Method Signature
+1. Decide the method *name*: `printAllUserTypes` is a good name for this method
+2. Decide the method's *return*: the method name chosen starts with print, that means, maybe we just want to print the data received. So, `void` as return type is sufficient for this method.
+3. Decide the method's *parameters*: this decision can be taken based on if any extra data is needed for this method to run and finish it's job.  
+ For a simple `select` query which shows all records of the table doesn't have any constraints (conditions), so no extra data is needed to run this query. So, parameters are not needed.  
 
-So, finally we have the method signature as:
+Finally, we have the method signature as:
 >`void printAllUserTypes()`
 
-And so, method would look like:
+The method would look like:
 ```
 void printAllUserTypes() {
 
@@ -138,7 +144,7 @@ Step #4: Execute the query and save the result
 Step #5: Process the result - saved data can be used to print or do any other operation  
 Step #6: Close the Connection
 
-In the above steps, Steps 1, 2, and 6 are common to all JDBC code. Step 6 is optional, may or may not be used for experiments by beginners. But, it MUST be used in professional code, i.e., in job.  
+In the above steps, Steps 1, 2, and 6 are common to all JDBC code. Step 3 may vary based on how much *simplicity* or how much *security* you want in the code. Step 6 is optional, may or may not be used for experiments by beginners. But, it MUST be used in professional code, i.e., in job.  
 
 ## Connect to a MySQL database `user_mgmt` using JDBC
 ### Problem: Verify if the `user_type` table has at least one record
@@ -282,10 +288,10 @@ void printAllUserTypes() {
 }
 ```
 
-But the above code is not such a good one. Why? Because, we are using `boolean execute(String sql)` method and this method doesn't give correct results because of it's return type policy.  
-A better code could be using `ResultSet executeQuery(String sql)` method. This method returns an object that contains all the result returned by the database and so can be used to check if the records are available in the result.  
-### Get full result of SELECT query as an object - Process data using ResultSet object
-Let's update the above code with this new method.. But before making any updates, let's see what need not be disturbed. As discussed earlier, Steps 1, 2, 3, and 6 are common to our previous JDBC code. The code up to creating a statement (Step 3), and the code that continues from Closing the Connection (Step 6) need not be disturbed.  
+But the above **_code is not such a good_** one. Why? Because, we are using `boolean execute(String sql)` method and this method doesn't give correct results because of it's return type policy.  
+A _better code_ could be using `ResultSet executeQuery(String sql)` method. This method returns an object that contains all the result returned by the database and so can be used to check if the records are available in the result.  
+### How to avoid the wrong output from previous code?
+Before making any updates in the code, let's see what need not be disturbed. As discussed earlier, Steps 1, 2, 3, and 6 are common to our previous JDBC code. The code up to creating a statement (Step 3), and the code that continues from Closing the Connection (Step 6) need not be disturbed.  
 Step #1 to Step #3:
 ```
 void printAllUserTypes() {
@@ -294,9 +300,9 @@ void printAllUserTypes() {
    String dbPassword = "root";
    String query = "SELECT * FROM user_type";
    try {
-	Class.forName("com.mysql.cj.jdbc.Driver");
-	Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-	Statement stmt = con.createStatement();
+	Class.forName("com.mysql.cj.jdbc.Driver");			// Step #1
+	Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);	// Step #2
+	Statement stmt = con.createStatement();				// Step #3
 ```
 Step #6 onwards:
 ```
@@ -309,12 +315,14 @@ Step #6 onwards:
    }
 }   // method close bracket
 ```
-Now, let's execute the query using `ResultSet executeQuery(String sql)` method and save the result in `ResultSet` object.  
+#### Step #4: Execute the query and save the result as `ResultSet` object
+Let's update the previous code with this new `execute` method of `Statement` interface.. Execute the query using `ResultSet executeQuery(String sql)` method and save the result in `ResultSet` object.  
 ```
 	ResultSet rs = stmt.executeQuery(query);
 ```
 `ResultSet` object refers to the whole result returned from executing the query. The result may include no records, 1 record, or multiple records based on the data available in the table. `ResultSet` interface has a method called `boolean next()` which maintains a cursor that refers to the first record of the result and checks if the `ResultSet` object refers to a record or not. If `ResultSet` object refers to a record, `rs.next()` returns `true` and moves the cursor to the next record in the result. If `ResultSet` object does not refer to a record, `rs.next()` returns `false`.  
-Now, let's make use of this method, process the result and print the record.
+#### Step #5: Process the result - saved data can be used to print or do any other operation
+First, let's just check if there is any record in the result. If rs.next() returns true, there is at least one record in the result.
 ```
 	if (rs.next()) {
 		// record is available
@@ -322,27 +330,31 @@ Now, let's make use of this method, process the result and print the record.
 	}
 ```
 The above `if` condition prints the message "record is available" if there is at least one record in the result. If we use `while` instead of `if`, the same message is repeatedly printed till all records of the result are accessed.
->**Think and Explain** how using `while` instead of `if` prints the same message repeatedly based on the number of records
+>**Think and Explain:** How using `while` instead of `if` prints the same message repeatedly based on the number of records
 
-Now, let's update the code inside the `if` block to print the data of the record.
+##### Print the record data
+Update the code inside the `if` block to print the data of the record.  
 This table (`user_type`) contains 4 columns: userTypeId (int), userType (varchar), description (varchar), and userTypeLevel (int)  
 I have mentioned the column type for each column within the pair of parentheses () for reference. This information is crucial to access individual column data per record.  
+>**Good Practice:** Always write down the table you are working on, their columns names with column data types for reference.
+
 `ResultSet` interface contains a lot of get methods for each primitive data type, one for String, and one for Object. And these methods are overloaded methods, i.e., same method name with different parameter types.  
-#### Example
+##### Overloaded get methods of `ResultSet`
 >`int getInt(int columnIndex)`  
 >`int getInt(String columnLabel)`
 
 Find more ResultSet get methods from its documentation page [here](https://docs.oracle.com/javase/8/docs/api/java/sql/ResultSet.html).  
 These methods return the value of the given column of the current record that is accessed using `ResultSet` rs object.  
-#### Example
+##### Example
 >`rs.getInt(1)` returns the current record's first column value, i.e., userTypeId column value.  
 >Alternatively, `rs.getInt("userTypeId")` too returns the value of the current record's column with column-label "userTypeId" 
 
 **Note:** Unlike Java's array index which starts from 0, SQL table's column index starts from 1.  
 
->How to decide which get method of `ResultSet` to use?  
+>**Question:** How to decide which get method of `ResultSet` to use?  
 
-That can be decided based on the data type of the column. For integer number types of SQL, getInt. For fractional number types of SQL, getFloat or getDouble. For varchar or any string types of SQL, getString. etc.  
+##### How to decide which get method of `ResultSet` to use?
+Decide that based on _the data type_ of the column. For integer number types of SQL: getInt or getLong or getByte or getShort. For fractional number types of SQL: getFloat or getDouble. For varchar or any string types of SQL: getString. etc.  
 
 So, the final code to print all the columns of the first record of result:
 ```
@@ -387,18 +399,27 @@ void printAllUserTypes() {
 ```
 ### Problem: Print all users based on given `userName`
 If you think about this problem, it is similar to the previous problem. Except that it is a different table (`user`), and the method needs an extra information, i.e., the value of the column `userName` to do the job.  
-When working on such problems, a **_good practice_** would be writing down the query and testing it in the SQL Server, and then keeping it available in comment line for reference.  
->**SQL Query for this problem:** SELECT * FROM user WHERE userName = 'Vijay';
+>**_Good Practice_:** Write down an example query and test it in the SQL Server. Keep it available in comment line for reference.  
 
-![query result]()  
-The method signature for this problem could be: `void printUserByName(String name)`. userName value is extra information and it could be anything. So, we better receive it as parameter of the method. As this method should just print the result, so `void` is enough as return type.  
+>**Example SQL Query for this problem:** SELECT * FROM user WHERE userName = 'Raju B';
+
+![query result](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/userByName.PNG)  
+Decide **_Method Signature_** for this problem: Follow the steps mentioned earlier under the section "Steps to decide Method Signature".
+My choice: `void printUserByName(String name)`  
+This query needs a value in WHERE clause, i.e., `WHERE userName = 'Raju B'`. A method that runs this query should receive user's name, like "Raju B" as extra information and that value can be any name. So, we need a String parameter for this method.  
+As this method should just print the result, so `void` is enough as return type.  
 
 #### Code
 The code is very much similar to previous problem's method. The only things to take care of: 
-1. Write the query in Java format (parameter variable to be concatenated properly)
-2. Update `ResultSet` get methods based on the columns to print
+1. Write the query in Java String format (parameter variable to be concatenated properly)  
+ The method receives the parameter `name`. This variable can be used to make the _dynamic SQL Query_ as a String value:  
+ "SELECT * FROM user WHERE userName = '" + name + "'"  
+ So, the query variable becomes: `String query = "SELECT * FROM user WHERE userName = '" + name + "'"`;
+ **Note:** Be careful while concatenating. Make sure the String value is enclosed in single quotes ''
+3. Update `ResultSet` get methods based on the columns to print. Refer to the previous content under "How to decide which get method of `ResultSet` to use?" section.  
 
-In the following code, I am printing only 4 columns of the `user` table.
+In the following code, I am printing only 4 columns of the `user` table.  
+Updated previous code with changing the method signature and added updated _dynamic SQL query_.
 ```
 void printUserByName(String name) {
    String dbUrl = "jdbc:mysql://localhost:3306/user_mgmt";
@@ -411,6 +432,7 @@ void printUserByName(String name) {
 	Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
 	Statement stmt = con.createStatement();
 	ResultSet rs = stmt.executeQuery(query);
+	// using different get methods based on the columns that are being printed: userName, gender, dob, country
 	while (rs.next()) {
 		System.out.print(rs.getString("userName") + "\t");
 		System.out.print(rs.getString("gender") + "\t");
