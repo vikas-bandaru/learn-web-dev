@@ -30,7 +30,7 @@ Find Apache Tomcat v9.0's implementation of Java Servlet API [here](https://tomc
 ![project-file-structure-1](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/project-file-structure-1.PNG)  
 ##### Create files and check how they are created in the respective files automatically
 Create a HTML file by Right-clicking on Project name and choosing HTML file from menu.  
-![create-html-file](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/create-html-file.PNG)  
+![create-html-file-1](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/create-html-file-1.PNG)  
 Enter the file name as `index.html` and press Finish button  
 ![create-html-file-2](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/create-html-file-2.PNG)  
 Create a Java class by Right-clicking on Project name and choosing Class from menu.  
