@@ -1,5 +1,5 @@
 # Java Servlet Basics
-Find Java Servlet API [here](https://docs.oracle.com/javaee/7/api/overview-summary.html).
+Find Java Servlet API [here](https://docs.oracle.com/javaee/7/api/overview-summary.html).  
 Find Apache Tomcat v9.0's implementation of Java Servlet API [here](https://tomcat.apache.org/tomcat-9.0-doc/servletapi/index.html).
 
 ## Setup Your Environment for Servlet Programming
@@ -26,3 +26,13 @@ Find Apache Tomcat v9.0's implementation of Java Servlet API [here](https://tomc
 ![web-project-1](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/web-project-1.PNG)  
 ![web-project-2](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/web-project-2.PNG)  
 ![web-project-3](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/web-project-3.PNG)  
+#### Observe the Project File Structure
+![project-file-structure-1](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/project-file-structure-1.PNG)  
+##### Create files and check how they are created in the respective files automatically
+Create a HTML file by Right-clicking on Project name and choosing HTML file from menu.  
+![create-html-file](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/create-html-file.PNG)  
+Enter the file name as `index.html` and press Finish button  
+![create-html-file-2](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/create-html-file-2.PNG)  
+Create a Java class by Right-clicking on Project name and choosing Class from menu.  
+Enter the file name as `Sample` and press Finish button  
+Observe where this file is created in the Project File Structure.  
