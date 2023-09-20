@@ -425,7 +425,7 @@ void printUserByName(String name) {
    String dbUrl = "jdbc:mysql://localhost:3306/user_mgmt";
    String dbUsername = "root";
    String dbPassword = "root";
-   // Example query: SELECT * FROM user WHERE userName = 'Vijay'
+   // Example query: SELECT * FROM user WHERE userName = 'Raju B'
    String query = "SELECT * FROM user WHERE userName = '" + name + "'";
    try {
 	Class.forName("com.mysql.cj.jdbc.Driver");
