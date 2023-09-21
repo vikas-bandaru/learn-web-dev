@@ -42,6 +42,16 @@ Create a Java class by Right-clicking on Project name and choosing Class from me
 Enter the file name as `Sample` and press Finish button  
 Observe where this file is created in the Project File Structure.  
 
+#### Update `index.html` file
+Write html code to get the following view:  
+![find-user-by-name-html](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/find-user-by-name-html.PNG)  
+
+#### Create a servlet: GreetUserServlet
+Create a Servlet in the project named: GreetUserServlet  
+In the doGet() method of the servlet, do the following:
+1. get the value of the input field and save it  
+>String name = request.getParameter("");  
+2. print the value with a welcome message to browser
 ###### To be updated:
 1. Provide a form with action attribute, input with name attribute, button with submit type
 2. Provide a Servlet with doGet() to greet the user in browser
