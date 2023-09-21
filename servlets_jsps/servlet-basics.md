@@ -7,6 +7,9 @@ Find Apache Tomcat v9.0's implementation of Java Servlet API [here](https://tomc
 2. Make sure compatible Eclipse for Java EE is available (Java Neon 3 is good)
 3. Download zip file of Apache Tomcat v9.0 and extract it to safe location
 4. Setup Environment Variables for JDK_HOME, JRE_HOME, CATALINA_HOME, and Path variable with JRE
+ Go to Windows menu and search for env, you will see two results as:
+ ![env-option-1](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/env1.png)
+ Choose the right option as mentioned above
 ![env-setup-1](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/env-variables-1.PNG)  
 ![env-setup-2](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/env-variables-2.PNG)  
 
@@ -22,7 +25,7 @@ Find Apache Tomcat v9.0's implementation of Java Servlet API [here](https://tomc
 ![eclipse-tomcat-setup-5](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/eclipse-tomcat-setup-5.PNG)  
 
 ### Create a new Dynamic Web Project in Eclipse and observe the Project File Structure
-1. Create a new Dynamic Web Project
+1. Create a new Dynamic Web Project  
 ![web-project-1](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/web-project-1.PNG)  
 ![web-project-2](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/web-project-2.PNG)  
 ![web-project-3](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/images/web-project-3.PNG)  
