@@ -61,33 +61,6 @@ Some **common CRUD operations** that can be performed on these tables:
 
 **Note:** Among the above CRUD operations, Read operation (SELECT) shall be used for all the various analysis that can be done based on the data in the tables and the relationship among the tables.
 
-A sample CLI menu for basic CRUD operations on `user_type` table:  
->=========================== USER_TYPE TABLE MENU ===========================  
->1. Create New User Type (Insert a User_Type record)
->2. View All User Types
->3. Update User Type Details
->4. Delete User Type
->5. Return to Main Menu
->6. Exit
->
->=======================================================================  
-Please enter your choice:  
-
-A sample CLI menu for basic CRUD operations on `user` table:  
->============================= USER TABLE MENU ==============================  
->1. Create New User
->2. View All Users
->3. View User by ID
->4. Update User Details
->5. Delete User
->6. Return to Main Menu
->7. Exit
->
->=======================================================================  
-Please enter your choice:  
-
->**Good Practice:** Always have a table design and respective CLI or GUI menu ready before starting JDBC code.
-
 ## JDBC
 ### Set up JDBC Environment
 This will involve downloading and installing the JDBC driver for the database you will be working with.
@@ -109,20 +82,90 @@ Do the following in the Eclipse Java Project:
 2. give me list of frequently used interfaces that are part of JDBC API
 3. give me a mapping of MySQL classes that implement these JDBC API interfaces in a tabular form mapped with similar implementations by Oracle database
 4. now give me most used methods of MySQL classes with their description and usage example in a tabular format
-That way, you know what features you want to work on. Each CLI or GUI menu becomes a method in your Java code which is dedicated to do one and only one job.
+That way, you know what features you want to work on. Each CLI or GUI menu becomes a method in your Java code which is dedicated to do one and only one job.  
 
+A sample CLI menu for basic CRUD operations on `user_type` table:  
+>=========================== USER_TYPE TABLE MENU ===========================  
+>1. Create New User Type (Insert a User_Type record)
+>2. View All User Types
+>3. Update User Type Details
+>4. Delete User Type
+>5. Return to Main Menu
+>6. Exit
+>
+>=======================================================================  
+Please enter your choice:  
+
+>**Good Practice:** Always have a table design and respective CLI or GUI menu ready before starting JDBC code. It will help you plan separate methods for JDBC CRUD based operations.
+
+### JDBC App (includes main method with CRUD operations menu)
+##### UserManagementApp class
+```
+import java.util.Scanner;
+public class UserManagementApp {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		do {
+			System.out.println("=========================== USER_TYPE TABLE MENU ===========================");
+			System.out.println("1. Create New User Type (Insert a User_Type record)");
+			System.out.println("2. View All User Types");
+			System.out.println("3. Update User Type Details");
+			System.out.println("4. Delete User Type");
+			System.out.println("5. Exit");
+			System.out.println("=======================================================================");
+			System.out.print("Enter your choice: ");
+			int userTypeMenuChoice = sc.nextInt();
+			switch(userTypeMenuChoice) {
+				case 1: System.out.println("Inserting a new User Type");
+						break;
+				case 2: System.out.println("Viewing all User Types");
+						break;
+				case 3: System.out.println("Updating User Type");
+						break;
+				case 4: System.out.println("Deleting User Type");
+						break;
+				case 5: System.exit(0); 
+			}
+		} while (true) ;
+	}
+
+}
+```
+Each case of the above menu item should deal with each CRUD operation. So, each of the operation should be written in a separate dedicated method in a separate class.  
+Let's call this new class as: `UserTypeDAO`  
+In the above class name, *DAO* represents **Data Access Object**. It is a special type of class that ONLY contains the methods that deal with data access, that is, JDBC CRUD operations.
+>**Good Practice:** Always write JDBC CRUD operations as separate methods in a separate class which is named in the following format: TableNameDAO
+```
+public class UserTypeDAO {
+
+	public static void main(String[] args) {
+		
+		// Test the methods for all JDBC CRUD operations here
+		
+	}
+	
+	// Provide methods for all JDBC CRUD operations
+
+}
+```
 #### Planning Methods for the CRUD Operations
-Let's think of method names and respective parameters or returns for each of the menu items for `user_type` or `user` table.  
-Let's consider a menu item based on a simple SQL query: SELECT * FROM table-name; This query is simple and doesn't need any extra data to work.  
->2. View All User Types  
+Let's think of method signatures (method names, respective parameters and/or return type) for each of the menu items for `user_type` table.  
+Let's consider a menu item based on a simple SQL query: `SELECT * FROM table-name;` This query is simple and doesn't need any extra data to work.  
+>View All User Types  
 
 This menu item fits our simple query.  
 It is *easy to come up with method signature*, if we understand the expected behavior of the method. The method for the above menu item should print all the records of the table `user_type`.
 ##### Steps to decide Method Signature
-1. Decide the method *name*: `printAllUserTypes` is a good name for this method
-2. Decide the method's *return*: the method name chosen starts with print, that means, maybe we just want to print the data received. So, `void` as return type is sufficient for this method.
-3. Decide the method's *parameters*: this decision can be taken based on if any extra data is needed for this method to run and finish it's job.  
- For a simple `select` query which shows all records of the table doesn't have any constraints (conditions), so no extra data is needed to run this query. So, parameters are not needed.  
+1. Decide the method *name*  
+ **What is the expected behavior of this method?** This method should get all records of the `user_type` table as `ResultSet` object and print them in Console.
+ `printAllUserTypes` is a good name for this method
+2. Decide the method's *return type*  
+ The method should just print the result received via JDBC operation.  
+ So, `void` as return type is sufficient for this method.
+3. Decide the method's *parameters*  
+ This decision can be taken based on if any extra data is needed for this method to run and finish it's job.  
+ A simple `select` query which shows all records of the table with no conditions (constraints) DOESN'T need any extra data to run this query. So, parameters are not needed.  
 
 Finally, we have the method signature as:
 >`void printAllUserTypes()`
@@ -133,8 +176,22 @@ void printAllUserTypes() {
 
 }
 ```
+Let us add this method body to our `UserTypeDAO` class. So, the final code looks like:  
+```
+public class UserTypeDAO {
+	public static void main(String[] args) {
+		// Test the JDBC CRUD operations based methods here
+	}
+	
+	// Provide JDBC CRUD operations based methods
+	
+	// A method to get all records using JDBC code and print to Console
+	void printAllUserTypes() {
 
-What should we write inside this method such that this method prints all the record details of the table `user_type`?
+	}
+}
+```
+What should we write inside this method such that this method prints all the records of the table `user_type` to Console?
 Let's first revise the steps involved in JDBC code..
 
 Step #1: Register the Database Driver class or Load the JDBC Driver  
@@ -147,7 +204,9 @@ Step #6: Close the Connection
 In the above steps, Steps 1, 2, and 6 are common to all JDBC code. Step 3 may vary based on how much *simplicity* or how much *security* you want in the code. Step 6 is optional, may or may not be used for experiments by beginners. But, it MUST be used in professional code, i.e., in job.  
 
 ## Connect to a MySQL database `user_mgmt` using JDBC
-### Problem: Verify if the `user_type` table has at least one record
+### Problem 0: Print the first record of `user_type` table
+This is a sub-problem of the `View All User Types` problem.  
+Let us first solve the simpler problem, that is, print the first record of the table. If the table does not have any records, then print a "Empty Table" message.
 #### Step #1: Load the MySQL JDBC Driver
 **Explanation:** JDBC drivers are responsible for communicating with the database. Before establishing a connection, you need to load the appropriate JDBC driver class.
 ```
@@ -155,15 +214,28 @@ Class.forName("com.mysql.jdbc.Driver");
 OR
 Class.forName("com.mysql.cj.jdbc.Driver");
 ```
-In this example, we load the MySQL JDBC driver class. The Class.forName() method dynamically loads the Driver class into memory. This class is located in the MySQL connector jar file that we set up in the previous step.
+In this example, we load the MySQL JDBC driver class. The Class.forName() method dynamically loads the Driver class into memory. This class is located in the MySQL connector jar file that we already set up.
 The above statement causes an exception called "ClassNotFoundException". Handle the exception using try-catch block like this:
 ```
 try {
 	Class.forName("com.mysql.cj.jdbc.Driver");
 } catch(ClassNotFoundException ex) {
-	System.out.println("Driver class not found.");
+	System.out.println("Driver not found.");
 }
 ```
+##### How to Troubleshoot `ClassNotFoundException`
+As we are enclosing the above statement with try-catch block, the message "Driver not found." is printed to Console, if there is a `ClassNotFoundException`.  
+Let us understand in which situation this exception might occur...
+Here, `Class.forName()` method tries to find a class called `Driver` in a package called `com.mysql.cj.jdbc`. This package and this class is provided in MySQL Connector JAR. And this JAR file is configured in the project using `Build Path`.  
+**Problem:**  
+If you see this message: "Driver not found." in the Console, it just means that, `Class.forName()` could not find the specified class.
+**Solution:**  
+Check the following:  
+1. Do you see "Referenced Libraries" in your JDBC related project. If you see this, do you see `mysql-connector-j-8.0.xx.jar` under it? If you don't see this, then go to the previous section by name "Set up JDBC Environment" and finish all steps in your project.
+ ![Project Explorer screenshot to show Referenced Libraries]()  
+2. Do you see the following in your code, without any typing mistake:  
+ `com.mysql.cj.jdbc.Driver`  
+You can resolve the exception by making sure of the above two steps.
 #### Step #2: Establish a Connection to the Database
 **Explanation:** To connect to a MySQL database, you need to provide the necessary connection details, such as the URL, username, and password of the database. URL includes a particular format that is used in almost all web or server-based software:
 >protocol://hostname:portNumber/resourceName
@@ -397,6 +469,19 @@ void printAllUserTypes() {
    }
 }	// method close bracket
 ```
+A sample CLI menu for basic CRUD operations on `user` table:  
+>============================= USER TABLE MENU ==============================  
+>1. Create New User
+>2. View All Users
+>3. View User by ID
+>4. Update User Details
+>5. Delete User
+>6. Return to Main Menu
+>7. Exit
+>
+>=======================================================================  
+Please enter your choice:  
+
 ### Problem: Print all users based on given `userName`
 If you think about this problem, it is similar to the previous problem. Except that it is a different table (`user`), and the method needs an extra information, i.e., the value of the column `userName` to do the job.  
 >**_Good Practice_:** Write down an example query and test it in the SQL Server. Keep it available in comment line for reference.  
