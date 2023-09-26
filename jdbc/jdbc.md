@@ -220,7 +220,7 @@ The above statement causes an exception called "ClassNotFoundException". Handle 
 try {
 	Class.forName("com.mysql.cj.jdbc.Driver");
 } catch(ClassNotFoundException ex) {
-	System.out.println("Driver not found.");
+	System.out.println("Exception: Driver not found.");
 }
 ```
 ##### How to Troubleshoot `ClassNotFoundException`
@@ -240,12 +240,12 @@ You can resolve the exception by making sure of the above two steps.
 **Explanation:** To connect to a MySQL database, you need to provide the necessary connection details, such as the URL, username, and password of the database. URL includes a particular format that is used in almost all web or server-based software:
 >protocol://hostname:portNumber/resourceName
 ```
-String dbUrl = "jdbc:mysql://host:port/your-database";
+String dbUrl = "jdbc:mysql://hostname:port/your-database";
 String dbUsername = "your-db-username";
 String dbPassword = "your–db-password";
 Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
 ```
-In the getConnection() method, you pass the connection URL, username, and password to establish a connection with the database. The URL typically follows the format `jdbc:mysql://host:port/your-database`, where host is the hostname or IP address of the database server, port is the port number (default is 3306 for MySQL), and your-database is the name of the specific database you want to connect to.
+In the getConnection() method, you pass the connection URL, username, and password to establish a connection with the database. The URL typically follows the format `jdbc:mysql://hostname:port/your-database`, where host is the hostname or IP address of the database server, port is the port number (default is 3306 for MySQL), and your-database is the name of the specific database you want to connect to.
 
 ##### Example:
 ```
@@ -274,11 +274,23 @@ try {
 	Class.forName("com.mysql.cj.jdbc.Driver");
 	Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
 } catch (ClassNotFoundException ex) {
-	System.out.println("Driver class not found.");
+	System.out.println("Exception: Driver class not found.");
 } catch (SQLException ex) {
 	System.out.println("Exception: Check spelling mistake in values of dbUrl or dbUsername or dbPassword");
 }
 ```
+##### How to Troubleshoot `SQLException`
+As we are enclosing the above statement with try-catch block, the message "Exception: Check spelling mistake in values of dbUrl or dbUsername or dbPassword" is printed to Console, if there is a `SQLException`.  
+Let us understand in which situation this exception might occur...
+Here, `DriverManager.getConnection(dbUrl, dbUsername, dbPassword)` method is supplied with 3 values: `dbUrl`, `dbUsername`, and `dbPassword`. All those values are String type variables which contain details related to your database. If there is any typing mistake in any one of them, that will lead to this exception. As they are String values, Java compiler cannot detect the mistake. The values must match the names from *your* Database. It is the developer's responsibility to double check the values of these variables.  
+**Problem:**  
+If you see this message: "Exception: Check spelling mistake in values of dbUrl or dbUsername or dbPassword" in the Console, it just means that, there is a mistake in any of those 3 variables.
+**Solution:**  
+Check the following:  
+1. The database name mentioned in dbUrl variable
+2. The database username mentioned in the dbUsername variable
+3. The database password mentioned in the dbPassword variable  
+You can resolve the exception by making sure of the above three steps.
 #### Step #3: Create a Statement
 **Explanation:** After establishing a connection, you can execute SQL statements or queries against the database. This will involve writing simple SELECT statements to retrieve data from the database. The simplest way to execute a query using JDBC is using a Statement object.
 ```
@@ -286,37 +298,54 @@ Statement stmt = con.createStatement();
 ```
 #### Step #4: Execute the query and save the result
 Statement interface has many execute methods. Execution methods available in Statement interface:
-1. boolean execute(String sql) -> rarely used
+1. `boolean execute(String sql)` -> rarely used
   Executes any SQL statement. It can be used for statements that do not return results, such as INSERT, UPDATE, DELETE, or DDL statements.
-2. ResultSet executeQuery(String sql) -> frequently used
+2. `ResultSet executeQuery(String sql)` -> frequently used
   Executes an (DRL) SQL SELECT query and returns a ResultSet object containing the query results.
-3. int executeUpdate(String sql) -> used with DML queries
+3. `int executeUpdate(String sql)` -> used with DML queries
   Executes an SQL INSERT, UPDATE, or DELETE statement and returns the number of affected rows.
-4. int[] executeBatch()
+4. `int[] executeBatch()`
   Executes a batch of SQL statements as a single operation. It is useful for executing multiple statements efficiently in a batch.
 Let us try one of them:
 ```
 String query = "SELECT * FROM user_type";
 boolean isSuccess = stmt.execute(query);
 ```
-The execute method returns true if the statement is a ResultSet-producing statement, and false otherwise.  
-All the execute methods cause "SQLException". They must be handled using try-catch blocks. Instead of writing separate try catch block, that code can be included in the previous try-catch block like:
+The `execute` method returns `true` if the statement is a ResultSet-producing statement, and `false` otherwise.  
+All the execute methods cause `SQLException`. They must be handled using try-catch blocks. Instead of writing separate try catch block, that code can be included in the previous try-catch block like:
 ```
-String dbUrl = "jdbc:mysql://localhost:3306/fsd46";
+String dbUrl = "jdbc:mysql://localhost:3306/user_mgmt";
 String dbUsername = "root";
 String dbPassword = "root";
 try {
 	Class.forName("com.mysql.cj.jdbc.Driver");
 	Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
 	Statement stmt = con.createStatement();
+
   	String query = "SELECT * FROM user_type";
   	boolean isSuccess = stmt.execute(query);
+	
 } catch(ClassNotFoundException ex) {
 	System.out.println("Driver class not found.");
 } catch(SQLException ex) {
   System.out.println("Exception: Check spelling mistake in values of dbUrl or dbUsername or dbPassword or query ");
 }
 ```
+##### How to Troubleshoot `SQLException` occurring in Query Execution
+As we are enclosing the above two statements with try-catch block, the message "Exception: Check spelling mistake in values of dbUrl or dbUsername or dbPassword" is printed to Console, if there is a `SQLException`.  
+Let us understand in which situation this exception might occur...
+Here,
+```
+String query = "SELECT * FROM user_type";
+boolean isSuccess = stmt.execute(query);
+```
+In the above code, `SELECT * FROM user_type` is saved as a String variable. Just like previous step, this might lead to `SQLException` if there is any typing mistake.
+**Problem:**  
+If you see this message: "Exception: Check spelling mistake in values of dbUrl or dbUsername or dbPassword" in the Console, it just means that, there is a mistake in `query` variable's value.
+**Solution:**  
+Check the following:  
+1. The `query` variable value and correct accordingly  
+You can resolve the exception by making sure of the above step.
 #### Step #5: Process the result - saved data can be used to print or do any other operation 
 **Explanation:** You can verify if the returned boolean value from execute method was true or false and accordingly print a message to the user.
 ```
