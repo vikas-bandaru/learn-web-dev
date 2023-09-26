@@ -228,7 +228,7 @@ As we are enclosing the above statement with try-catch block, the message "Drive
 Let us understand in which situation this exception might occur...
 Here, `Class.forName()` method tries to find a class called `Driver` in a package called `com.mysql.cj.jdbc`. This package and this class is provided in MySQL Connector JAR. And this JAR file is configured in the project using `Build Path`.  
 **Problem:**  
-If you see this message: "Driver not found." in the Console, it just means that, `Class.forName()` could not find the specified class.
+If you see this message: "Driver not found." in the Console, it just means that, `Class.forName()` could not find the specified class.  
 **Solution:**  
 Check the following:  
 1. Do you see "Referenced Libraries" in your JDBC related project. If you see this, do you see `mysql-connector-j-8.0.xx.jar` under it? If you don't see this, then go to the previous section by name "Set up JDBC Environment" and finish all steps in your project.
@@ -284,7 +284,7 @@ As we are enclosing the above statement with try-catch block, the message "Excep
 Let us understand in which situation this exception might occur...
 Here, `DriverManager.getConnection(dbUrl, dbUsername, dbPassword)` method is supplied with 3 values: `dbUrl`, `dbUsername`, and `dbPassword`. All those values are String type variables which contain details related to your database. If there is any typing mistake in any one of them, that will lead to this exception. As they are String values, Java compiler cannot detect the mistake. The values must match the names from *your* Database. It is the developer's responsibility to double check the values of these variables.  
 **Problem:**  
-If you see this message: "Exception: Check spelling mistake in values of dbUrl or dbUsername or dbPassword" in the Console, it just means that, there is a mistake in any of those 3 variables.
+If you see this message: "Exception: Check spelling mistake in values of dbUrl or dbUsername or dbPassword" in the Console, it just means that, there is a mistake in any of those 3 variables.  
 **Solution:**  
 Check the following:  
 1. The database name mentioned in dbUrl variable
@@ -339,9 +339,9 @@ Here,
 String query = "SELECT * FROM user_type";
 boolean isSuccess = stmt.execute(query);
 ```
-In the above code, `SELECT * FROM user_type` is saved as a String variable. Just like previous step, this might lead to `SQLException` if there is any typing mistake.
+In the above code, `SELECT * FROM user_type` is saved as a String variable. Just like previous step, this might lead to `SQLException` if there is any typing mistake.  
 **Problem:**  
-If you see this message: "Exception: Check spelling mistake in values of dbUrl or dbUsername or dbPassword" in the Console, it just means that, there is a mistake in `query` variable's value.
+If you see this message: "Exception: Check spelling mistake in values of dbUrl or dbUsername or dbPassword" in the Console, it just means that, there is a mistake in `query` variable's value.  
 **Solution:**  
 Check the following:  
 1. The `query` variable value and correct accordingly  
