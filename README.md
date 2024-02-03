@@ -1,5 +1,5 @@
 # learn-web-dev
-A repository with examples, experiments and lots of beginner-friendly content to learn web development technologies like HTML, CSS, Bootstrap, JavaScript, Servlets & JSPs, TypeScript, Angular, etc...
+A repository with examples, experiments and lots of beginner-friendly content to learn advanced web development technologies like JDBC, Servlets & JSPs, TypeScript, Angular, etc...
 
 ## Contents
 1. [JDBC Material](https://github.com/vikas-bandaru/learn-web-dev/blob/main/jdbc/jdbc.md)
