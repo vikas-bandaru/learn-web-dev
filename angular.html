@@ -1,0 +1,125 @@
+---
+layout: default
+title: Learn Angular
+---
+<button id="openbtn" class="openbtn" onclick="openNav()">☰</button>
+
+
+
+<!-- top menu -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="index.html">Learn Web Dev</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <!-- <li class="nav-item">
+                <a class="nav-link" href="#basics">Basics, DOM & Events</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#cart-example">Shopping Cart Example</a>
+            </li> -->
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <h1 class="text-center">Angular Tutorial</h1>
+    <h2>What is Angular?</h2>
+    <p>Angular is a JavaScript framework for building modern single-page web applications. 
+        <a href="www.angular.io" style="align-content: center;"><img style="display: block;" src="images/angular.png" alt="Angular logo"></a>
+        <br><strong>Official Website:</strong> <a href="www.angular.io">www.angular.io</a>  This contains official documentation and tutorials.
+        <br>It provides a set of tools and techniques for building robust, scalable, and maintainable applications.</p>
+
+    <h2>Key Features of Angular</h2>
+    <ul>
+        <li>Component-based framework</li>
+        <li>Clean separation of template coding and application logic</li>
+        <li>Built-in support for data-binding and dependency injection</li>
+        <li>Supports responsive web design and modern frameworks
+            <ul>
+                <li>Bootstrap, Google Material Design and others...</li>
+            </ul>
+        </li>
+    </ul>
+    
+    <h2>Key Concepts of Angular</h2>
+    <ul>
+      <li><strong>Components:</strong> Angular applications are built using components, which are self-contained modules of code that define the behavior and appearance of parts of your application. Your application can Parent Components and Child Components.</li>
+      <li><strong>Templates:</strong> Angular uses HTML templates to define the structure and layout of your application. The components make use of View Templates. </li>
+      <li><strong>Directives:</strong> Angular provides a set of built-in directives for extending the behavior of HTML elements, as well as the ability to define your own custom directives. Directives are used to customize the behavior of your View Templates.</li>
+      <li><strong>Services:</strong> Services are used in Angular to provide functionality that can be shared across multiple components. Clien-side code written in Typescript.</li>
+      <li><strong>Modules:</strong> Collection of related components, services, directives, etc.</li>
+      <li><strong>Dependency Injection:</strong> Angular's dependency injection system makes it easy to manage dependencies between components and services.</li>
+      <li><strong>Routing:</strong> Angular's built-in router makes it easy to navigate between different views and components in your application.</li>
+      <li><strong>Testing:</strong> Angular provides a comprehensive testing framework for writing unit tests, integration tests, and end-to-end tests for your application.</li>
+    </ul>
+
+    <h2>Getting Started with Angular</h2>
+    <p>To get started with Angular, you'll need to install it using a package manager like npm, and then create a new Angular project using the Angular CLI. From there, you can start building your application using the tools and techniques provided by Angular.</p>
+    <h2>Setup your Environment</h2>
+    <p>includes how to setup your system for Angular development</p>
+    <h2>Creating a New Angular Component</h2>
+    <h4>Development Process</h4>
+    <ol>
+        <li>Create a new project: <strong><code>ng new &lt;project-name&gt;</code></strong></li>
+        <li>Update main template page: You can find it under app folder of src folder
+            <img style="display: block;" src="images/view-template.png" alt="view-template example">
+            Delete everything in the file and add some sample code like:
+            <img style="display: block;" src="images/main-html-code.PNG" alt="first-code">
+        </li>
+        <li>Generate a new component: <strong><code>ng generate component &lt;component-name&gt;</code></strong>
+            <p><strong><code>ng generate component dev-list</code></strong><br>The following folder is created with it's respectives files.</p>
+            <img style="display: block;" src="images/components.png" alt="new component">
+            This new component dev-list is added inside app component. App Component is outermost component which is auto-generated when a new angular project is created.
+        </li>
+        <li>Add new component selector to app template page
+            <h5>Where to find the selector value?</h5>
+            <p>In the above step, we created a component called <strong>dev-list</strong>. Go to <strong>dev-list</strong> folder and open it's <strong>component.ts</strong> file. 
+            <img style="display: block;" src="images/component-ts.png" alt="component-ts image">
+            <ul>
+                <li>Copy the value of selector property of @component decorator in dev-list.component.ts</li>
+                <li>Go to parent component's template page: app.component.html file</li>
+                <li>Type a tag with that selector value as tag name.</li>
+                <img style="display: block;" src="images/app-component-tag.png" alt="child component tag">
+                <li>Check the dev-list.component.html file. It already contains an auto-generated code.</li>
+                <img style="display: block;" src="images/dev-list-component-html.png" alt="child component html">
+            </ul>
+            </p>
+        </li>
+        <li>Run the project and check the result on browser. <br>
+            <strong><code>ng serve --open</code></strong>
+        </li>
+        <li>Generate a Developer class</li>
+        <li>In DevListComponent, create sample data</li>
+        <li>In dev-list template file, build HTML table by looping over data</li>
+    </ol>
+    <h2>Integrating Angular and Bootstrap CSS</h2>
+    <h4>Developement Process</h4>
+    <ol>
+        <li>Get links for remote Bootstrap files</li>
+        <ol type="a">
+            <li>Go to <a href="www.getbootstrap.com" target="_blank">www.getbootstrap.com</a></li>
+            <li>Click Read the docs</li>
+            <li>Scroll down to <strong>Include Bootstrap’s CSS and JS</strong> topic</li>
+            <li>Copy link tag</li>
+        </ol>
+        <li>Add link under head tag of index.html</li>
+        <li>Apply Bootstrap CSS styles in component HTML template
+            <ol type="a">
+                <li>Go to app component's template file</li>
+                <li>Create a div around existing content and apply <strong>container</strong> class to this div. Apply <strong>mt</strong> and <strong>mb</strong> for h1 tag.</li>
+            </ol>
+        </li>
+        <li>Apply Bootstrap CSS styles in component HTML table</li>
+        <li>Update Typescript component file to reference Bootstrap HTML template</li>
+    </ol>
+  </div>
+  
+  <footer class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="index.html">Learn Web Dev</a>
+    <div class="container footer-text text-white">
+        © 2023 Made with 🤍 by Vikas Bandaru
+    </div>
+</footer>
